@@ -324,7 +324,13 @@ def _make_code_change_graph_line(
     )
 
 
-def make_ai_code_stats(stats: dict[str, Any], show_graph: bool = True, show_stats: bool = True, /) -> str:
+def make_ai_code_stats(
+    stats: dict[str, Any],
+    show_graph: bool = True,
+    show_stats: bool = True,
+    pad_len: int | None = None,
+    /,
+) -> str:
     """Make optional AI code statistics from WakaTime stats fields."""
     if not show_graph and not show_stats:
         return ""
@@ -365,7 +371,7 @@ def make_ai_code_stats(stats: dict[str, Any], show_graph: bool = True, show_stat
         ai_ratio = 0
         human_ratio = 0
 
-    pad_len = max(len("AI Code"), len("Human Code"))
+    pad_len = max(pad_len or 0, len("AI Code"), len("Human Code"))
     waka_input = globals().get("wk_i")
     prefix_length = getattr(
         waka_input, "prefix_length", WakaInput.__dataclass_fields__["prefix_length"].default
@@ -511,7 +517,12 @@ def prep_content(stats: dict[str, Any], /):
             break
 
     if (wk_i.show_ai_code or wk_i.show_ai_stats) and (
-        ai_code_stats := make_ai_code_stats(stats, bool(wk_i.show_ai_code), bool(wk_i.show_ai_stats))
+        ai_code_stats := make_ai_code_stats(
+            stats,
+            bool(wk_i.show_ai_code),
+            bool(wk_i.show_ai_stats),
+            pad_len,
+        )
     ):
         contents += "\n" + ai_code_stats + "\n"
 

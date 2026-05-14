@@ -156,6 +156,7 @@ class TestMain(unittest.TestCase):
                     (
                         "AI Code      1,500 lines           ###################------   75.00 %",
                         "Human Code   500 lines             ######-------------------   25.00 %",
+                        "",
                         "AI Stats",
                         "  Prompts      42",
                         "  Tokens       12,345 in / 678 out",

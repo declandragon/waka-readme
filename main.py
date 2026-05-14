@@ -418,6 +418,8 @@ def make_ai_code_stats(
             + f"{_format_number(ai_input_tokens)} in / {_format_number(ai_output_tokens)} out"
         )
     if stats_lines:
+        if lines:
+            lines.append("")
         lines.append("AI Stats")
         lines.extend(stats_lines)
 

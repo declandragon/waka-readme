@@ -409,13 +409,17 @@ def make_ai_code_stats(
             )
         )
 
+    stats_lines = []
     if show_stats and ai_prompt_events:
-        lines.append(f"AI Prompts: {_format_number(ai_prompt_events)}")
+        stats_lines.append(f"  {'Prompts'.ljust(12)} {_format_number(ai_prompt_events)}")
     if show_stats and (ai_input_tokens or ai_output_tokens):
-        lines.append(
-            "AI Tokens: "
+        stats_lines.append(
+            f"  {'Tokens'.ljust(12)} "
             + f"{_format_number(ai_input_tokens)} in / {_format_number(ai_output_tokens)} out"
         )
+    if stats_lines:
+        lines.append("AI Stats")
+        lines.extend(stats_lines)
 
     agent_line_changes: dict[str, int] = {}
     raw_agent_breakdown = stats.get("ai_agent_breakdown")
@@ -428,9 +432,12 @@ def make_ai_code_stats(
         agent_line_changes = stats["ai_agent_line_changes"]
 
     if show_stats and agent_line_changes:
-        lines.append("AI Agents:")
+        if stats_lines:
+            lines.append("")
+        agent_pad_len = max(len(name) for name in agent_line_changes)
+        lines.append("AI Agents")
         for name, line_changes in agent_line_changes.items():
-            lines.append(f"  {name}: {_format_number(int(line_changes))} lines")
+            lines.append(f"  {name.ljust(agent_pad_len)} {_format_number(int(line_changes))} lines")
 
     return "\n".join(lines)
 

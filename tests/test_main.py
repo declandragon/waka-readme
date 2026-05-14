@@ -156,11 +156,13 @@ class TestMain(unittest.TestCase):
                     (
                         "AI Code      1,500 lines           ###################------   75.00 %",
                         "Human Code   500 lines             ######-------------------   25.00 %",
-                        "AI Prompts: 42",
-                        "AI Tokens: 12,345 in / 678 out",
-                        "AI Agents:",
-                        "  Cursor: 1,000 lines",
-                        "  GitHub Copilot: 500 lines",
+                        "AI Stats",
+                        "  Prompts      42",
+                        "  Tokens       12,345 in / 678 out",
+                        "",
+                        "AI Agents",
+                        "  Cursor         1,000 lines",
+                        "  GitHub Copilot 500 lines",
                     )
                 ),
             )
@@ -196,9 +198,11 @@ class TestMain(unittest.TestCase):
 
             stats_only = prime.make_ai_code_stats(stats, False, True)
             self.assertNotIn("AI Code", stats_only)
-            self.assertIn("AI Prompts: 2", stats_only)
-            self.assertIn("AI Tokens: 1,000 in / 200 out", stats_only)
-            self.assertIn("  Cursor: 100 lines", stats_only)
+            self.assertIn("AI Stats", stats_only)
+            self.assertIn("  Prompts      2", stats_only)
+            self.assertIn("  Tokens       1,000 in / 200 out", stats_only)
+            self.assertIn("AI Agents", stats_only)
+            self.assertIn("  Cursor 100 lines", stats_only)
 
             self.assertEqual(prime.make_ai_code_stats(stats, False, False), "")
         finally:

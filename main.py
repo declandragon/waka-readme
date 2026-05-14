@@ -320,8 +320,7 @@ def _make_code_change_graph_line(
         label_text
         + f"{change_text}{graph_bar}   "
         + f"{ratio:.2f}".zfill(5)
-        + " % "
-        + f"(+{_format_number(additions)} / -{_format_number(deletions)})"
+        + " %"
     )
 
 
@@ -466,11 +465,6 @@ def prep_content(stats: dict[str, Any], /):
     elif wk_i.show_total_time and (total_time := stats.get("human_readable_total")):
         contents += f"Total Time: {total_time}\n\n"
 
-    if (wk_i.show_ai_code or wk_i.show_ai_stats) and (
-        ai_code_stats := make_ai_code_stats(stats, bool(wk_i.show_ai_code), bool(wk_i.show_ai_stats))
-    ):
-        contents += ai_code_stats + "\n\n"
-
     lang_info: list[dict[str, int | float | str]] | None = []
 
     # Check if any language data exists
@@ -515,6 +509,11 @@ def prep_content(stats: dict[str, Any], /):
             break
         if idx + 1 >= language_count > 0:  # idx starts at 0
             break
+
+    if (wk_i.show_ai_code or wk_i.show_ai_stats) and (
+        ai_code_stats := make_ai_code_stats(stats, bool(wk_i.show_ai_code), bool(wk_i.show_ai_stats))
+    ):
+        contents += "\n" + ai_code_stats + "\n"
 
     logger.debug("Contents were made\n")
     return contents.rstrip("\n")

@@ -154,8 +154,8 @@ class TestMain(unittest.TestCase):
                 prime.make_ai_code_stats(stats, True, True),
                 "\n".join(
                     (
-                        "AI Code      1,500 lines           ###################------   75.00 % (+1,200 / -300)",
-                        "Human Code   500 lines             ######-------------------   25.00 % (+450 / -50)",
+                        "AI Code      1,500 lines           ###################------   75.00 %",
+                        "Human Code   500 lines             ######-------------------   25.00 %",
                         "AI Prompts: 42",
                         "AI Tokens: 12,345 in / 678 out",
                         "AI Agents:",
